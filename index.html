@@ -633,6 +633,126 @@
     @media (max-width: 400px) {
       .check-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── UPLOAD FIELD ─────────────────────────────────────────── */
+    .upload-field {
+      margin-top: 10px;
+      border: 1px dashed var(--gold-dark);
+      border-radius: 2px;
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: #C9A96E06;
+      position: relative;
+    }
+    .upload-field:hover { border-color: var(--gold); background: #C9A96E0F; }
+    .upload-field input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+    .upload-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--gold-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .upload-text { flex: 1; }
+    .upload-text strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-light);
+      letter-spacing: 0.5px;
+    }
+    .upload-text span {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+    .upload-badge {
+      font-size: 10px;
+      color: var(--gold-dark);
+      border: 1px solid var(--gold-dark);
+      padding: 2px 8px;
+      border-radius: 2px;
+      letter-spacing: 1px;
+    }
+    .upload-filename {
+      font-size: 11px;
+      color: var(--gold);
+      margin-top: 8px;
+      display: none;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── PANEL CONDICIONAL HONORARIOS / GASTOS ────────────────── */
+    .conditional-panel {
+      display: none;
+      margin-top: 2px;
+      border: 1px solid var(--gold-dark);
+      border-radius: 2px;
+      background: #0A0A0A;
+      overflow: hidden;
+      animation: slideDown 0.3s ease;
+    }
+    .conditional-panel.visible { display: block; }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cond-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px;
+      background: #C9A96E08;
+      border-bottom: 1px solid var(--border-gold);
+    }
+    .cond-header-icon {
+      font-size: 18px;
+    }
+    .cond-header-text strong {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gold-light);
+      letter-spacing: 0.5px;
+    }
+    .cond-header-text span {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .cond-tag {
+      margin-left: auto;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold-dark);
+      border: 1px solid var(--gold-dark);
+      padding: 3px 8px;
+      border-radius: 1px;
+    }
+    .cond-body {
+      padding: 20px 24px;
+    }
+    .cond-body .field { margin-top: 16px; }
+    .cond-body .field:first-child { margin-top: 0; }
   </style>
 </head>
 <body>
@@ -728,15 +848,102 @@
         </div>
         <div class="field field-full">
           <label>Estado del caso <span class="req">*</span></label>
-          <select required>
+          <select id="select-estado" required onchange="onEstadoChange(this.value)">
             <option value="">— Seleccioná —</option>
-            <option>Iniciar</option>
-            <option>Abierto</option>
-            <option>En proceso</option>
-            <option>Cerrado</option>
+            <option value="Iniciar">Iniciar</option>
+            <option value="Abierto">Abierto</option>
+            <option value="En proceso">En proceso</option>
+            <option value="Cerrado">Cerrado</option>
           </select>
         </div>
       </div>
+
+      <!-- ── PANEL: HONORARIOS (solo Abierto / En proceso) ────── -->
+      <div class="conditional-panel" id="panel-honorarios">
+        <div class="cond-header">
+          <div class="cond-header-icon">⚖️</div>
+          <div class="cond-header-text">
+            <strong>Pago de Honorarios</strong>
+            <span>Comprobante de pago al estudio</span>
+          </div>
+          <div class="cond-tag">SOLO ABIERTO / EN PROCESO</div>
+        </div>
+        <div class="cond-body">
+          <div class="field">
+            <label>Monto abonado</label>
+            <input type="text" placeholder="Ej: $150.000"/>
+          </div>
+          <div class="field">
+            <label>Fecha de pago</label>
+            <input type="date"/>
+          </div>
+          <div class="field">
+            <label>Forma de pago</label>
+            <select>
+              <option value="">— Seleccioná —</option>
+              <option>Efectivo</option>
+              <option>Transferencia bancaria</option>
+              <option>Tarjeta de crédito</option>
+              <option>Tarjeta de débito</option>
+              <option>Cheque</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Observaciones del pago</label>
+            <input type="text" placeholder="Ej: Anticipo de honorarios – Etapa prejudicial"/>
+          </div>
+          <div class="field">
+            <label>Comprobante de pago</label>
+            <div class="upload-field" onclick="triggerUpload('upload-honorarios')">
+              <input type="file" id="upload-honorarios" accept=".pdf,.jpg,.jpeg,.png" onchange="showFilename(this,'name-honorarios')"/>
+              <div class="upload-icon">📎</div>
+              <div class="upload-text">
+                <strong>Adjuntar comprobante</strong>
+                <span>PDF, JPG, PNG — Máx. 10 MB</span>
+              </div>
+              <div class="upload-badge">SUBIR</div>
+            </div>
+            <div class="upload-filename" id="name-honorarios"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PANEL: GASTOS (solo Abierto / En proceso) ────────── -->
+      <div class="conditional-panel" id="panel-gastos">
+        <div class="cond-header">
+          <div class="cond-header-icon">🧾</div>
+          <div class="cond-header-text">
+            <strong>Gastos del Expediente</strong>
+            <span>Comprobantes de gastos asociados al caso</span>
+          </div>
+          <div class="cond-tag">SOLO ABIERTO / EN PROCESO</div>
+        </div>
+        <div class="cond-body">
+          <div class="field">
+            <label>Descripción del gasto</label>
+            <input type="text" placeholder="Ej: Sellado judicial, peritos, traslados, etc."/>
+          </div>
+          <div class="field">
+            <label>Monto total de gastos</label>
+            <input type="text" placeholder="Ej: $45.000"/>
+          </div>
+          <div class="field">
+            <label>Comprobantes de gastos</label>
+            <div class="upload-field" onclick="triggerUpload('upload-gastos')">
+              <input type="file" id="upload-gastos" accept=".pdf,.jpg,.jpeg,.png" multiple onchange="showFilename(this,'name-gastos')"/>
+              <div class="upload-icon">📎</div>
+              <div class="upload-text">
+                <strong>Adjuntar comprobantes</strong>
+                <span>PDF, JPG, PNG — Múltiples archivos permitidos</span>
+              </div>
+              <div class="upload-badge">SUBIR</div>
+            </div>
+            <div class="upload-filename" id="name-gastos"></div>
+          </div>
+        </div>
+      </div>
+
       <div class="section-nav">
         <button type="button" class="btn-next" onclick="nextSection(1)"><span>Continuar →</span></button>
       </div>
@@ -1292,6 +1499,41 @@
   }
 
   updateProgress();
+
+  // ── Lógica condicional: Honorarios y Gastos ─────────────────
+  function onEstadoChange(val) {
+    var mostrar = (val === 'Abierto' || val === 'En proceso');
+    var panelH = document.getElementById('panel-honorarios');
+    var panelG = document.getElementById('panel-gastos');
+    if (mostrar) {
+      panelH.classList.add('visible');
+      panelG.classList.add('visible');
+    } else {
+      panelH.classList.remove('visible');
+      panelG.classList.remove('visible');
+      // limpiar campos al ocultar
+      panelH.querySelectorAll('input,select,textarea').forEach(function(el){ el.value=''; });
+      panelG.querySelectorAll('input,select,textarea').forEach(function(el){ el.value=''; });
+      document.getElementById('name-honorarios').style.display = 'none';
+      document.getElementById('name-gastos').style.display = 'none';
+    }
+  }
+
+  // ── Helpers de upload ────────────────────────────────────────
+  function triggerUpload(id) {
+    // El click ya lo maneja el input file superpuesto; esta función es fallback
+  }
+
+  function showFilename(input, nameId) {
+    var el = document.getElementById(nameId);
+    if (input.files && input.files.length > 0) {
+      var names = Array.from(input.files).map(function(f){ return f.name; }).join(', ');
+      el.textContent = '📎 ' + names;
+      el.style.display = 'block';
+    } else {
+      el.style.display = 'none';
+    }
+  }
 </script>
 </body>
 </html>
