@@ -1,561 +1,1297 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Radiografía del Hecho – Formulario</title>
+  <title>Radiografía del Hecho | Cruzat Estudio Jurídico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ── RESET & BASE ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:        #C9A96E;
+      --gold-light:  #E2C99A;
+      --gold-dark:   #9A7A48;
+      --black:       #0A0A0A;
+      --dark:        #111111;
+      --dark-2:      #181818;
+      --dark-3:      #1F1F1F;
+      --dark-card:   #141414;
+      --border:      #2A2A2A;
+      --border-gold: #C9A96E30;
+      --text:        #D4C9B8;
+      --text-muted:  #7A7060;
+      --text-light:  #F5EFE6;
+      --white:       #FFFFFF;
+      --error:       #C0392B;
+      --success:     #27AE60;
+    }
+
+    html { scroll-behavior: smooth; }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f0f4f8;
-      color: #333;
-      padding: 24px 12px;
-    }
-    .form-wrapper {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    .form-header {
-      background: #1a73e8;
-      color: white;
-      border-radius: 12px 12px 0 0;
-      padding: 28px 28px 20px;
-      border-top: 8px solid #0d47a1;
-    }
-    .form-header h1 {
-      font-size: 24px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    .form-header p {
-      margin-top: 8px;
+      font-family: 'Montserrat', sans-serif;
+      background: var(--black);
+      color: var(--text);
+      min-height: 100vh;
       font-size: 14px;
-      opacity: 0.88;
+      line-height: 1.6;
     }
-    .section-card {
-      background: white;
-      border-radius: 8px;
-      padding: 24px 28px;
-      margin-top: 14px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+
+    /* ── SCROLLBAR ────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--dark); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
+
+    /* ── HEADER ───────────────────────────────────────────────── */
+    .site-header {
+      background: var(--black);
+      border-bottom: 1px solid var(--border-gold);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
     }
-    .section-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #1a73e8;
-      border-bottom: 2px solid #e8f0fe;
-      padding-bottom: 10px;
-      margin-bottom: 18px;
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+    }
+    .logo-text { display: flex; flex-direction: column; line-height: 1; }
+    .logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 4px;
       text-transform: uppercase;
+    }
+    .logo-sub {
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--text-muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+    .header-nav span { color: var(--gold); }
+    .header-divider { color: var(--border); margin: 0 6px; }
+
+    /* ── HERO BANNER ──────────────────────────────────────────── */
+    .hero {
+      background: linear-gradient(160deg, #0A0A0A 0%, #141008 50%, #0A0A0A 100%);
+      border-bottom: 1px solid var(--border-gold);
+      padding: 64px 32px 52px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, #C9A96E0D 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 4px;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 58px);
+      font-weight: 300;
+      color: var(--text-light);
+      line-height: 1.1;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+    .hero-title strong {
+      font-weight: 600;
+      color: var(--gold);
+      font-style: italic;
+    }
+    .hero-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 16px auto 0;
+      letter-spacing: 0.3px;
+    }
+    .hero-line {
+      width: 60px;
+      height: 1px;
+      background: var(--gold);
+      margin: 24px auto 0;
+      opacity: 0.5;
+    }
+
+    /* ── PROGRESS BAR ─────────────────────────────────────────── */
+    .progress-wrap {
+      background: var(--dark);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      position: sticky;
+      top: 72px;
+      z-index: 90;
+    }
+    .progress-inner {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .progress-bar-bg {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+      border-radius: 2px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
+    .progress-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .progress-label span { color: var(--gold); font-weight: 600; }
+
+    /* ── MAIN LAYOUT ──────────────────────────────────────────── */
+    .main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── SECTION CARD ─────────────────────────────────────────── */
+    .section-card {
+      background: var(--dark-card);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      margin-bottom: 2px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .section-card.active { border-color: var(--gold-dark); }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 22px 28px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s;
+    }
+    .section-header:hover { background: #FFFFFF04; }
+
+    .section-num {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--gold-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gold);
+      flex-shrink: 0;
+      transition: all 0.3s;
+    }
+    .section-card.active .section-num {
+      background: var(--gold);
+      color: var(--black);
+    }
+    .section-card.done .section-num {
+      background: var(--gold-dark);
+      color: var(--black);
+    }
+    .section-card.done .section-num::after { content: '✓'; }
+    .section-card.done .section-num .num-text { display: none; }
+
+    .section-title-wrap { flex: 1; }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-light);
       letter-spacing: 0.5px;
     }
+    .section-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+      margin-top: 2px;
+    }
+
+    .section-chevron {
+      color: var(--text-muted);
+      transition: transform 0.3s;
+      font-size: 12px;
+    }
+    .section-card.active .section-chevron { transform: rotate(180deg); color: var(--gold); }
+
+    .section-body {
+      display: none;
+      padding: 0 28px 28px;
+      border-top: 1px solid var(--border);
+    }
+    .section-body.open { display: block; }
+
+    /* ── FIELDS ───────────────────────────────────────────────── */
+    .fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 24px;
+    }
+    .fields-grid .field-full { grid-column: 1 / -1; }
+
     .field {
-      margin-bottom: 18px;
+      margin-top: 24px;
     }
     .field label {
       display: block;
-      font-size: 13px;
+      font-size: 10px;
       font-weight: 600;
-      color: #444;
-      margin-bottom: 6px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
     }
-    .field .required { color: #d32f2f; margin-left: 3px; }
+    .field label .req { color: var(--gold); margin-left: 2px; }
+
     .field input[type="text"],
     .field input[type="email"],
-    .field input[type="number"],
     .field input[type="date"],
     .field input[type="time"],
+    .field input[type="number"],
     .field select,
     .field textarea {
       width: 100%;
-      border: none;
-      border-bottom: 1px solid #bbb;
-      padding: 8px 4px;
-      font-size: 14px;
-      color: #333;
       background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-light);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      padding: 10px 0 10px 0;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.25s;
+      -webkit-appearance: none;
+      border-radius: 0;
     }
     .field input:focus,
     .field select:focus,
     .field textarea:focus {
-      border-bottom: 2px solid #1a73e8;
+      border-bottom-color: var(--gold);
     }
-    .field textarea {
-      min-height: 72px;
-      resize: vertical;
-      border: 1px solid #bbb;
-      border-radius: 4px;
-      padding: 8px;
-    }
+    .field input::placeholder,
+    .field textarea::placeholder { color: #3A3530; font-size: 12px; }
+
     .field select {
       cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23C9A96E'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+      padding-right: 20px;
     }
+    .field select option { background: var(--dark-2); color: var(--text-light); }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 80px;
+      border: 1px solid var(--border);
+      padding: 12px;
+      border-radius: 1px;
+      margin-top: 0;
+    }
+    .field textarea:focus { border-color: var(--gold-dark); }
+
     .field .hint {
-      font-size: 11px;
-      color: #888;
-      margin-top: 4px;
-    }
-    .checkbox-group, .radio-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 24px;
+      font-size: 10px;
+      color: var(--text-muted);
       margin-top: 6px;
+      letter-spacing: 0.5px;
     }
-    .checkbox-group label, .radio-group label {
-      font-weight: 400;
-      font-size: 14px;
+
+    /* CHECKBOX & RADIO */
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .check-item {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 1px;
       cursor: pointer;
+      transition: all 0.2s;
+      font-size: 12px;
+      color: var(--text);
+      user-select: none;
     }
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+    .check-item:hover { border-color: var(--gold-dark); color: var(--text-light); }
+    .check-item input { display: none; }
+    .check-item .box {
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--gold-dark);
+      border-radius: 0;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      font-size: 10px;
+      color: transparent;
     }
-    @media(max-width: 540px) {
-      .field-row { grid-template-columns: 1fr; }
-      .form-header { padding: 20px 16px; }
-      .section-card { padding: 18px 16px; }
+    .check-item input:checked ~ .box {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--black);
     }
-    .upload-box {
-      border: 2px dashed #c5cae9;
-      border-radius: 8px;
-      padding: 18px;
-      text-align: center;
-      color: #888;
-      font-size: 13px;
-      background: #fafafa;
+    .check-item input:checked ~ .box::after { content: '✓'; }
+    .check-item:has(input:checked) { border-color: var(--gold-dark); background: #C9A96E08; color: var(--gold-light); }
+
+    .radio-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .radio-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border: 1px solid var(--border);
+      border-radius: 1px;
       cursor: pointer;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
+      font-size: 12px;
+      color: var(--text);
+      user-select: none;
     }
-    .upload-box:hover { border-color: #1a73e8; color: #1a73e8; }
-    .upload-box span { display: block; font-size: 28px; margin-bottom: 6px; }
-    .submit-btn {
-      background: #1a73e8;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 14px 36px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 20px;
-      width: 100%;
-      transition: background 0.2s;
+    .radio-item:hover { border-color: var(--gold-dark); color: var(--text-light); }
+    .radio-item input { display: none; }
+    .radio-item .dot {
+      width: 14px;
+      height: 14px;
+      border: 1px solid var(--gold-dark);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
     }
-    .submit-btn:hover { background: #1558b0; }
-    .badge {
-      display: inline-block;
-      background: #e8f0fe;
-      color: #1a73e8;
-      border-radius: 12px;
-      padding: 2px 10px;
+    .radio-item input:checked ~ .dot { background: var(--gold); border-color: var(--gold); box-shadow: inset 0 0 0 3px var(--dark-card); }
+    .radio-item:has(input:checked) { border-color: var(--gold-dark); background: #C9A96E08; color: var(--gold-light); }
+
+    /* ── SECTION DIVIDER LABEL ────────────────────────────────── */
+    .fields-divider {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin: 28px 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .fields-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── NAV BUTTONS ──────────────────────────────────────────── */
+    .section-nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-prev {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 11px 28px;
+      font-family: 'Montserrat', sans-serif;
       font-size: 11px;
       font-weight: 600;
-      margin-left: 8px;
-      vertical-align: middle;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 1px;
     }
-    .info-box {
-      background: #e8f5e9;
-      border-left: 4px solid #43a047;
-      border-radius: 4px;
-      padding: 12px 16px;
+    .btn-prev:hover { border-color: var(--text-muted); color: var(--text-light); }
+
+    .btn-next {
+      background: transparent;
+      border: 1px solid var(--gold-dark);
+      color: var(--gold);
+      padding: 11px 32px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-radius: 1px;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-next::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--gold);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .btn-next:hover::before { transform: scaleX(1); }
+    .btn-next:hover { color: var(--black); }
+    .btn-next span { position: relative; z-index: 1; }
+
+    .btn-submit {
+      background: var(--gold);
+      border: 1px solid var(--gold);
+      color: var(--black);
+      padding: 14px 48px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      border-radius: 1px;
+    }
+    .btn-submit:hover { background: var(--gold-light); border-color: var(--gold-light); }
+
+    /* ── SUCCESS MESSAGE ──────────────────────────────────────── */
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 80px 32px;
+    }
+    .success-screen.show { display: block; }
+    .success-icon {
+      width: 72px;
+      height: 72px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 28px;
+      font-size: 28px;
+      color: var(--gold);
+    }
+    .success-screen h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      color: var(--text-light);
+      font-weight: 300;
+      margin-bottom: 12px;
+    }
+    .success-screen p { color: var(--text-muted); font-size: 13px; max-width: 460px; margin: 0 auto; }
+    .success-case {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 10px 28px;
+      border: 1px solid var(--gold-dark);
+      color: var(--gold);
       font-size: 13px;
-      color: #2e7d32;
-      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+
+    /* ── FOOTER ───────────────────────────────────────────────── */
+    .site-footer {
+      background: var(--dark);
+      border-top: 1px solid var(--border-gold);
+      padding: 40px 32px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 40px;
+      align-items: center;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gold);
+      letter-spacing: 4px;
+    }
+    .footer-logo span {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 3px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .footer-center { text-align: center; }
+    .footer-address {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 2;
+      letter-spacing: 0.5px;
+    }
+    .footer-address strong { color: var(--text); font-weight: 500; }
+    .footer-right { text-align: right; }
+    .footer-contact { font-size: 11px; color: var(--text-muted); line-height: 2.2; }
+    .footer-contact a { color: var(--gold); text-decoration: none; font-size: 12px; }
+    .footer-contact a:hover { color: var(--gold-light); }
+    .footer-divider {
+      max-width: 1100px;
+      margin: 28px auto 0;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+    .footer-copy {
+      max-width: 1100px;
+      margin: 16px auto 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+    .footer-copy a { color: var(--text-muted); text-decoration: none; }
+    .footer-copy a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ───────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      .header-inner { padding: 0 20px; }
+      .hero { padding: 48px 20px 40px; }
+      .progress-wrap { padding: 14px 20px; }
+      .main { padding: 32px 16px 60px; }
+      .section-header { padding: 18px 20px; }
+      .section-body { padding: 0 20px 24px; }
+      .fields-grid { grid-template-columns: 1fr; }
+      .fields-grid .field-full { grid-column: 1; }
+      .footer-inner { grid-template-columns: 1fr; text-align: center; gap: 20px; }
+      .footer-right { text-align: center; }
+      .footer-copy { flex-direction: column; gap: 6px; }
+      .check-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 400px) {
+      .check-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-<div class="form-wrapper">
 
-  <!-- HEADER -->
-  <div class="form-header">
-    <h1>RADIOGRAFÍA DEL HECHO</h1>
-    <p>Registro de accidentes y hechos. Completá todos los campos obligatorios (<span style="color:#ffcdd2">*</span>). Los datos son confidenciales y solo se usan para gestión del caso.</p>
-  </div>
-
-  <!-- SECCIÓN 1: DATOS DEL REGISTRO -->
-  <div class="section-card">
-    <div class="section-title">Sección 1 — Datos del Registro</div>
-    <div class="field-row">
-      <div class="field">
-        <label>Fecha de confección <span class="required">*</span></label>
-        <input type="date" />
-      </div>
-      <div class="field">
-        <label>N° de expediente / caso</label>
-        <input type="text" placeholder="Ej: EXP-2026-001" />
-        <div class="hint">Se asignará automáticamente si se deja vacío</div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Estado del caso</label>
-      <select>
-        <option value="">Seleccioná una opción</option>
-        <option>Abierto</option>
-        <option>En proceso</option>
-        <option>Cerrado</option>
-      </select>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 2: DATOS PERSONALES -->
-  <div class="section-card">
-    <div class="section-title">Sección 2 — Datos Personales del Accidentado</div>
-    <div class="field">
-      <label>Nombre y apellido completo <span class="required">*</span></label>
-      <input type="text" placeholder="Apellido, Nombre" />
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>D.N.I. N° <span class="required">*</span></label>
-        <input type="text" placeholder="Ej: 17.183.165" />
-      </div>
-      <div class="field">
-        <label>Fecha de nacimiento <span class="required">*</span></label>
-        <input type="date" />
+<!-- ══════════════════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <!-- SVG Escudo/Balanza Cruzat -->
+      <svg class="logo-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="45" stroke="#C9A96E" stroke-width="1.5" fill="none"/>
+        <circle cx="50" cy="50" r="38" stroke="#C9A96E" stroke-width="0.5" fill="none" opacity="0.4"/>
+        <!-- Balanza -->
+        <line x1="50" y1="22" x2="50" y2="70" stroke="#C9A96E" stroke-width="1.5"/>
+        <line x1="28" y1="36" x2="72" y2="36" stroke="#C9A96E" stroke-width="1.5"/>
+        <circle cx="28" cy="36" r="2" fill="#C9A96E"/>
+        <circle cx="72" cy="36" r="2" fill="#C9A96E"/>
+        <path d="M20 50 Q28 42 36 50" stroke="#C9A96E" stroke-width="1.2" fill="none"/>
+        <path d="M64 50 Q72 42 80 50" stroke="#C9A96E" stroke-width="1.2" fill="none"/>
+        <line x1="38" y1="68" x2="62" y2="68" stroke="#C9A96E" stroke-width="1.5"/>
+        <!-- Laureles simplificados -->
+        <path d="M18 60 Q14 52 18 44 Q22 50 18 60Z" fill="#C9A96E" opacity="0.6"/>
+        <path d="M82 60 Q86 52 82 44 Q78 50 82 60Z" fill="#C9A96E" opacity="0.6"/>
+        <circle cx="50" cy="22" r="2.5" fill="#C9A96E"/>
+      </svg>
+      <div class="logo-text">
+        <span class="logo-name">CRUZAT</span>
+        <span class="logo-sub">Estudio Jurídico</span>
       </div>
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Edad</label>
-        <input type="number" placeholder="Años" min="0" max="120" />
-      </div>
-      <div class="field">
-        <label>Estado civil <span class="required">*</span></label>
-        <select>
-          <option value="">Seleccioná</option>
-          <option>Soltero/a</option>
-          <option>Casado/a</option>
-          <option>Viudo/a</option>
-          <option>Divorciado/a</option>
-          <option>Unión convivencial</option>
-        </select>
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Nacionalidad</label>
-        <input type="text" placeholder="Ej: Argentina" />
-      </div>
-      <div class="field">
-        <label>Nombre del padre (si es menor)</label>
-        <input type="text" placeholder="Solo si es menor de edad" />
-      </div>
-    </div>
-    <div class="field">
-      <label>Nombre de la madre (si es menor)</label>
-      <input type="text" placeholder="Solo si es menor de edad" />
-    </div>
-    <div class="field">
-      <label>Domicilio completo <span class="required">*</span></label>
-      <textarea placeholder="Calle, número, manzana, barrio, etc."></textarea>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Localidad</label>
-        <input type="text" placeholder="Ej: El Bermejo" />
-      </div>
-      <div class="field">
-        <label>Provincia</label>
-        <input type="text" placeholder="Ej: Mendoza" />
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Teléfono fijo</label>
-        <input type="text" placeholder="Ej: 261-4xx-xxxx" />
-      </div>
-      <div class="field">
-        <label>Teléfono celular <span class="required">*</span></label>
-        <input type="text" placeholder="Ej: 261-714-4726" />
-      </div>
-    </div>
-    <div class="field">
-      <label>Email</label>
-      <input type="email" placeholder="correo@ejemplo.com" />
+    <div class="header-nav">
+      <span>Registro de Accidente</span>
+      <span class="header-divider">|</span>
+      <span style="color:var(--text-muted)">Uso interno confidencial</span>
     </div>
   </div>
+</header>
 
-  <!-- SECCIÓN 3: GRUPO FAMILIAR -->
-  <div class="section-card">
-    <div class="section-title">Sección 3 — Grupo Familiar</div>
-    <div class="field-row">
-      <div class="field">
-        <label>Cantidad de hijos</label>
-        <input type="number" placeholder="0" min="0" />
-      </div>
-      <div class="field">
-        <label>¿Convive con familiares?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="convive" value="si" /> Sí</label>
-          <label><input type="radio" name="convive" value="no" /> No</label>
-        </div>
-      </div>
+<!-- ══════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <p class="hero-eyebrow">Cruzat Estudio Jurídico · Uso Interno</p>
+  <h1 class="hero-title">Radiografía <strong>del Hecho</strong></h1>
+  <p class="hero-desc">
+    Ficha de registro de accidentes y hechos. Completá todos los campos
+    con la mayor precisión posible. La información es estrictamente confidencial.
+  </p>
+  <div class="hero-line"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     PROGRESS
+══════════════════════════════════════════════════════════ -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <span class="progress-label">Sección <span id="current-sec">1</span> de <span id="total-sec">8</span></span>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill"></div>
     </div>
-    <div class="field">
-      <label>Descripción del grupo familiar</label>
-      <textarea placeholder="Ej: 5 hijos (1 de 21 años y 4 hijos casados que no viven con ella)"></textarea>
-    </div>
+    <span class="progress-label" id="progress-pct" style="min-width:36px;text-align:right">0%</span>
   </div>
-
-  <!-- SECCIÓN 4: DATOS LABORALES -->
-  <div class="section-card">
-    <div class="section-title">Sección 4 — Datos Laborales</div>
-    <div class="field">
-      <label>Situación laboral <span class="required">*</span></label>
-      <select>
-        <option value="">Seleccioná</option>
-        <option>Empleado/a</option>
-        <option>Trabajador/a independiente</option>
-        <option>Jubilado/a</option>
-        <option>Desocupado/a</option>
-        <option>Otro</option>
-      </select>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Lugar de trabajo</label>
-        <input type="text" placeholder="Nombre empresa / organismo" />
-      </div>
-      <div class="field">
-        <label>¿Presenta bono de sueldo?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="bono" value="si" /> Sí</label>
-          <label><input type="radio" name="bono" value="no" /> No</label>
-        </div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Domicilio laboral</label>
-      <textarea placeholder="Dirección del trabajo (si aplica)"></textarea>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Antigüedad laboral</label>
-        <input type="text" placeholder="Ej: 5 años" />
-      </div>
-      <div class="field">
-        <label>Categoría laboral</label>
-        <input type="text" placeholder="Ej: Administrativo" />
-      </div>
-    </div>
-    <div class="field">
-      <label>Sueldo aproximado</label>
-      <input type="text" placeholder="Ej: $500.000" />
-    </div>
-  </div>
-
-  <!-- SECCIÓN 5: DATOS DEL ACCIDENTE -->
-  <div class="section-card">
-    <div class="section-title">Sección 5 — Datos del Accidente</div>
-    <div class="field-row">
-      <div class="field">
-        <label>Fecha del accidente <span class="required">*</span></label>
-        <input type="date" />
-      </div>
-      <div class="field">
-        <label>Hora del accidente <span class="required">*</span></label>
-        <input type="time" />
-      </div>
-    </div>
-    <div class="field">
-      <label>Tipo de accidente <span class="required">*</span></label>
-      <select>
-        <option value="">Seleccioná</option>
-        <option>Caída en vía pública</option>
-        <option>Accidente laboral</option>
-        <option>Accidente de tránsito</option>
-        <option>Accidente doméstico</option>
-        <option>Otro</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>Lugar del accidente <span class="required">*</span></label>
-      <input type="text" placeholder="Ej: Av. Gral. San Martín S/N" />
-    </div>
-    <div class="field">
-      <label>Dirección exacta / referencia</label>
-      <textarea placeholder="Intersección, punto de referencia, coordenadas si disponibles"></textarea>
-    </div>
-    <div class="field">
-      <label>Descripción de los hechos <span class="required">*</span></label>
-      <textarea style="min-height:120px" placeholder="Relatá con detalle cómo ocurrió el accidente..."></textarea>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 6: LESIONES Y ATENCIÓN MÉDICA -->
-  <div class="section-card">
-    <div class="section-title">Sección 6 — Lesiones y Asistencia Médica</div>
-    <div class="field">
-      <label>Tipo de lesión <span class="badge">Múltiple</span></label>
-      <div class="checkbox-group">
-        <label><input type="checkbox" /> Esguince</label>
-        <label><input type="checkbox" /> Fractura</label>
-        <label><input type="checkbox" /> Golpes / contusiones</label>
-        <label><input type="checkbox" /> Cortes / heridas</label>
-        <label><input type="checkbox" /> Lesión muscular</label>
-        <label><input type="checkbox" /> Traumatismo craneal</label>
-        <label><input type="checkbox" /> Otra</label>
-      </div>
-    </div>
-    <div class="field">
-      <label>Parte del cuerpo afectada <span class="badge">Múltiple</span></label>
-      <div class="checkbox-group">
-        <label><input type="checkbox" /> Tobillo</label>
-        <label><input type="checkbox" /> Rodilla</label>
-        <label><input type="checkbox" /> Cadera</label>
-        <label><input type="checkbox" /> Brazo / codo</label>
-        <label><input type="checkbox" /> Mano / muñeca</label>
-        <label><input type="checkbox" /> Espalda / columna</label>
-        <label><input type="checkbox" /> Cabeza / cuello</label>
-        <label><input type="checkbox" /> Otra</label>
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Centro médico donde fue atendido</label>
-        <input type="text" placeholder="Nombre clínica / hospital" />
-      </div>
-      <div class="field">
-        <label>¿Se realizaron radiografías / estudios?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="rx" value="si" /> Sí</label>
-          <label><input type="radio" name="rx" value="no" /> No</label>
-        </div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Diagnóstico médico</label>
-      <textarea placeholder="Ej: Esguince grado II en ambos tobillos"></textarea>
-    </div>
-    <div class="field">
-      <label>Estado actual del accidentado/a</label>
-      <textarea placeholder="Describí la situación a la fecha del registro"></textarea>
-    </div>
-    <div class="field">
-      <label>Descripción de lesiones</label>
-      <textarea placeholder="Ej: Ambos tobillos esguinzados"></textarea>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Días de internación</label>
-        <input type="number" placeholder="0" min="0" />
-        <div class="hint">Dejá vacío si no hubo internación</div>
-      </div>
-      <div class="field">
-        <label>¿Se realizaron operaciones?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="operacion" value="si" /> Sí</label>
-          <label><input type="radio" name="operacion" value="no" /> No</label>
-        </div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Descripción de operaciones / intervenciones</label>
-      <textarea placeholder="Describí las intervenciones quirúrgicas realizadas, si aplica"></textarea>
-    </div>
-    <div class="field">
-      <label>Tratamientos recibidos o en curso</label>
-      <textarea placeholder="Ej: Kinesiología, medicación, reposo, yeso, etc."></textarea>
-    </div>
-    <div class="field">
-      <label>Secuelas</label>
-      <textarea placeholder="Describí las secuelas físicas o psicológicas que persisten hasta la fecha"></textarea>
-    </div>
-    <div class="field">
-      <label>Atención médica recibida</label>
-      <textarea placeholder="Ej: Consultorios Médicos Morales – Centro Médico La Bronce – Ecografía Aguilar – Clínica Santa Clara"></textarea>
-    </div>
-    <div class="field">
-      <label>Seguro del demandado</label>
-      <input type="text" placeholder="Nombre de la aseguradora, si se conoce" />
-    </div>
-  </div>
-
-  <!-- SECCIÓN 7: TESTIGOS Y ASISTENCIA -->
-  <div class="section-card">
-    <div class="section-title">Sección 7 — Testigos y Asistencia</div>
-    <div class="field-row">
-      <div class="field">
-        <label>¿Hubo testigos? <span class="required">*</span></label>
-        <div class="radio-group">
-          <label><input type="radio" name="testigos" value="si" /> Sí</label>
-          <label><input type="radio" name="testigos" value="no" /> No</label>
-        </div>
-      </div>
-      <div class="field">
-        <label>¿Intervino personal policial?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="policia" value="si" /> Sí</label>
-          <label><input type="radio" name="policia" value="no" /> No</label>
-        </div>
-      </div>
-    </div>
-    <div class="field">
-      <label>Datos de testigos</label>
-      <textarea placeholder="Nombre, DNI, teléfono de cada testigo"></textarea>
-    </div>
-    <div class="field">
-      <label>Observaciones adicionales</label>
-      <textarea style="min-height:100px" placeholder="Cualquier información relevante no contemplada en los campos anteriores"></textarea>
-    </div>
-  </div>
-
-  <!-- SECCIÓN 8: DOCUMENTACIÓN -->
-  <div class="section-card">
-    <div class="section-title">Sección 8 — Documentación Adjunta</div>
-    <div class="info-box">
-      📎 Adjuntá los archivos en formato JPG, PNG o PDF. Tamaño máximo por archivo: 10 MB.
-    </div>
-    <div class="field">
-      <label>Fotos del lugar / lesiones</label>
-      <div class="upload-box">
-        <span>📷</span>
-        Hacé clic o arrastrá fotos aquí<br/>
-        <small>JPG, PNG – hasta 10 MB c/u</small>
-      </div>
-    </div>
-    <div class="field">
-      <label>Estudios médicos / radiografías</label>
-      <div class="upload-box">
-        <span>🩻</span>
-        Adjuntá informes y estudios<br/>
-        <small>PDF, JPG – hasta 10 MB c/u</small>
-      </div>
-    </div>
-    <div class="field">
-      <label>Copia del D.N.I.</label>
-      <div class="upload-box">
-        <span>🪪</span>
-        Frente y dorso del DNI<br/>
-        <small>JPG, PNG, PDF – hasta 10 MB c/u</small>
-      </div>
-    </div>
-    <div class="field">
-      <label>Otros documentos relevantes</label>
-      <div class="upload-box">
-        <span>📄</span>
-        Denuncias policiales, certificados, etc.<br/>
-        <small>PDF, JPG – hasta 10 MB c/u</small>
-      </div>
-    </div>
-  </div>
-
-  <!-- BOTÓN SUBMIT -->
-  <div class="section-card" style="text-align:center; padding-bottom:28px;">
-    <p style="font-size:13px; color:#888; margin-bottom:8px;">Al enviar confirmás que los datos son verídicos y completos.</p>
-    <button class="submit-btn" onclick="alert('✅ Formulario enviado correctamente.\nN° de caso asignado: EXP-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900)+100))">
-      Enviar formulario
-    </button>
-  </div>
-
 </div>
+
+<!-- ══════════════════════════════════════════════════════════
+     FORM
+══════════════════════════════════════════════════════════ -->
+<main class="main">
+<form id="main-form" novalidate>
+
+  <!-- ── S1: DATOS DEL REGISTRO ───────────────────────────── -->
+  <div class="section-card active" data-section="1">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num"><span class="num-text">I</span></div>
+      <div class="section-title-wrap">
+        <div class="section-title">Datos del Registro</div>
+        <div class="section-sub">IDENTIFICACIÓN DEL EXPEDIENTE</div>
+      </div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body open">
+      <div class="fields-grid">
+        <div class="field">
+          <label>Fecha de confección <span class="req">*</span></label>
+          <input type="date" required/>
+        </div>
+        <div class="field">
+          <label>N° de expediente / caso</label>
+          <input type="text" placeholder="Se asignará automáticamente"/>
+          <div class="hint">Dejar vacío si aún no fue asignado</div>
+        </div>
+        <div class="field field-full">
+          <label>Estado del caso <span class="req">*</span></label>
+          <select required>
+            <option value="">— Seleccioná —</option>
+            <option>Iniciar</option>
+            <option>Abierto</option>
+            <option>En proceso</option>
+            <option>Cerrado</option>
+          </select>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button type="button" class="btn-next" onclick="nextSection(1)"><span>Continuar →</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── S2: DATOS PERSONALES ─────────────────────────────── -->
+  <div class="section-card" data-section="2">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num"><span class="num-text">II</span></div>
+      <div class="section-title-wrap">
+        <div class="section-title">Datos Personales</div>
+        <div class="section-sub">DEL ACCIDENTADO / A</div>
+      </div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="fields-grid">
+        <div class="field field-full">
+          <label>Nombre y apellido completo <span class="req">*</span></label>
+          <input type="text" placeholder="Apellido, Nombre" required/>
+        </div>
+        <div class="field">
+          <label>D.N.I. N° <span class="req">*</span></label>
+          <input type="text" placeholder="Sin puntos. Ej: 17183165" pattern="[0-9]{7,8}" required/>
+        </div>
+        <div class="field">
+          <label>Fecha de nacimiento <span class="req">*</span></label>
+          <input type="date" required/>
+        </div>
+        <div class="field">
+          <label>Edad</label>
+          <input type="number" placeholder="Años" min="0" max="120"/>
+        </div>
+        <div class="field">
+          <label>Estado civil <span class="req">*</span></label>
+          <select required>
+            <option value="">— Seleccioná —</option>
+            <option>Soltero/a</option>
+            <option>Casado/a</option>
+            <option>Viudo/a</option>
+            <option>Divorciado/a</option>
+            <option>Unión convivencial</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Nacionalidad</label>
+          <input type="text" placeholder="Ej: Argentina"/>
+        </div>
+        <div class="field">
+          <label>Nombre del padre</label>
+          <input type="text" placeholder="Solo si es menor de edad"/>
+        </div>
+        <div class="field">
+          <label>Nombre de la madre</label>
+          <input type="text" placeholder="Solo si es menor de edad"/>
+        </div>
+        <div class="field field-full">
+          <label>Domicilio completo <span class="req">*</span></label>
+          <textarea placeholder="Calle, número, manzana, barrio, localidad..." required></textarea>
+        </div>
+        <div class="field">
+          <label>Localidad / ciudad</label>
+          <input type="text" placeholder="Ej: Ciudad de Mendoza"/>
+        </div>
+        <div class="field">
+          <label>Provincia</label>
+          <input type="text" placeholder="Ej: Mendoza"/>
+        </div>
+        <div class="field">
+          <label>Teléfono fijo</label>
+          <input type="text" placeholder="Ej: 261-423-0403"/>
+        </div>
+        <div class="field">
+          <label>Teléfono celular <span class="req">*</span></label>
+          <input type="text" placeholder="Ej: 261-714-4726" required/>
+        </div>
+        <div class="field field-full">
+          <label>Email de contacto</label>
+          <input type="email" placeholder="correo@ejemplo.com"/>
+        </div>
+
+        <div class="fields-divider field-full">Redes sociales</div>
+
+        <div class="field">
+          <label>WhatsApp</label>
+          <input type="text" placeholder="Ej: 261-586-3587"/>
+        </div>
+        <div class="field">
+          <label>Instagram</label>
+          <input type="text" placeholder="@usuario"/>
+        </div>
+        <div class="field">
+          <label>Facebook</label>
+          <input type="text" placeholder="Nombre de perfil o URL"/>
+        </div>
+        <div class="field">
+          <label>Otra red social</label>
+          <input type="text" placeholder="LinkedIn, TikTok, X, etc."/>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button type="button" class="btn-prev" onclick="prevSection(2)">← Anterior</button>
+        <button type="button" class="btn-next" onclick="nextSection(2)"><span>Continuar →</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── S3: GRUPO FAMILIAR ───────────────────────────────── -->
+  <div class="section-card" data-section="3">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num"><span class="num-text">III</span></div>
+      <div class="section-title-wrap">
+        <div class="section-title">Grupo Familiar</div>
+        <div class="section-sub">ENTORNO Y CONVIVENCIA</div>
+      </div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="fields-grid">
+        <div class="field">
+          <label>Cantidad de hijos</label>
+          <input type="number" placeholder="0" min="0"/>
+        </div>
+        <div class="field">
+          <label>¿Convive con familiares?</label>
+          <div class="radio-row" style="margin-top:12px">
+            <label class="radio-item"><input type="radio" name="convive" value="si"/><div class="dot"></div>Sí</label>
+            <label class="radio-item"><input type="radio" name="convive" value="no"/><div class="dot"></div>No</label>
+          </div>
+        </div>
+        <div class="field field-full">
+          <label>Descripción del grupo familiar</label>
+          <textarea placeholder="Ej: 5 hijos (1 de 21 años y 4 casados que no viven con ella)"></textarea>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button type="button" class="btn-prev" onclick="prevSection(3)">← Anterior</button>
+        <button type="button" class="btn-next" onclick="nextSection(3)"><span>Continuar →</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── S4: DATOS LABORALES ──────────────────────────────── -->
+  <div class="section-card" data-section="4">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num"><span class="num-text">IV</span></div>
+      <div class="section-title-wrap">
+        <div class="section-title">Datos Laborales</div>
+        <div class="section-sub">SITUACIÓN AL MOMENTO DEL ACCIDENTE</div>
+      </div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="fields-grid">
+        <div class="field field-full">
+          <label>Situación laboral <span class="req">*</span></label>
+          <select required>
+            <option value="">— Seleccioná —</option>
+            <option>Empleado/a en relación de dependencia</option>
+            <option>Trabajador/a independiente / monotributista</option>
+            <option>Jubilado/a</option>
+            <option>Pensionado/a</option>
+            <option>Desocupado/a</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Empleador / empresa</label>
+          <input type="text" placeholder="Nombre del empleador"/>
+        </div>
+        <div class="field">
+          <label>¿Presenta bono de sueldo? <span class="req">*</span></label>
+          <div class="radio-row" style="margin-top:12px">
+            <label class="radio-item"><input type="radio" name="bono" value="si"/><div class="dot"></div>Sí</label>
+            <label class="radio-item"><input type="radio" name="bono" value="no"/><div class="dot"></div>No</label>
+          </div>
+        </div>
+        <div class="field field-full">
+          <label>Domicilio laboral</label>
+          <textarea placeholder="Dirección del lugar de trabajo"></textarea>
+        </div>
+        <div class="field">
+          <label>Antigüedad laboral</label>
+          <input type="text" placeholder="Ej: 5 años"/>
+        </div>
+        <div class="field">
+          <label>Categoría / cargo</label>
+          <input type="text" placeholder="Ej: Administrativo"/>
+        </div>
+        <div class="field">
+          <label>Sueldo aproximado</label>
+          <input type="text" placeholder="Ej: $500.000"/>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button type="button" class="btn-prev" onclick="prevSection(4)">← Anterior</button>
+        <button type="button" class="btn-next" onclick="nextSection(4)"><span>Continuar →</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── S5: DATOS DEL ACCIDENTE ──────────────────────────── -->
+  <div class="section-card" data-section="5">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num"><span class="num-text">V</span></div>
+      <div class="section-title-wrap">
+        <div class="section-title">Datos del Accidente</div>
+        <div class="section-sub">CIRCUNSTANCIAS DEL HECHO</div>
+      </div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="fields-grid">
+        <div class="field">
+          <label>Fecha del accidente <span class="req">*</span></label>
+          <input type="date" required/>
+        </div>
+        <div class="field">
+          <label>Hora del accidente <span class="req">*</span></label>
+          <input type="time" required/>
+        </div>
+        <div class="field field-full">
+          <label>Tipo de accidente <span class="req">*</span></label>
+          <select required>
+            <option value="">— Seleccioná —</option>
+            <option>Caída en vía pública</option>
+            <option>Accidente laboral</option>
+            <option>Accidente de tránsito</option>
+            <option>Accidente doméstico</option>
+            <option>Agresión / violencia</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Lugar del accidente <span class="req">*</span></label>
+          <input type="text" placeholder="Ej: Av. Gral. San Martín S/N" required/>
+        </div>
+        <div class="field">
+          <label>Referencia / intersección</label>
+          <input type="text" placeholder="Intersección o punto de referencia"/>
+        </div>
+        <div class="field field-full">
+          <label>Descripción detallada de los hechos <span class="req">*</span></label>
+          <textarea style="min-height:120px" placeholder="Relatá con el mayor detalle cómo ocurrió el accidente..." required></textarea>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button type="button" class="btn-prev" onclick="prevSection(5)">← Anterior</button>
+        <button type="button" class="btn-next" onclick="nextSection(5)"><span>Continuar →</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── S6: LESIONES Y ATENCIÓN MÉDICA ───────────────────── -->
+  <div class="section-card" data-section="6">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num"><span class="num-text">VI</span></div>
+      <div class="section-title-wrap">
+        <div class="section-title">Lesiones y Atención Médica</div>
+        <div class="section-sub">DIAGNÓSTICO, TRATAMIENTOS Y SECUELAS</div>
+      </div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="fields-grid">
+
+        <div class="field field-full">
+          <label>Tipo de lesión <span style="color:var(--text-muted);font-size:9px;letter-spacing:1px">(PODÉS MARCAR MÁS DE UNA)</span></label>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Esguince</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Fractura</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Golpes / contusiones</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Cortes / heridas</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Lesión muscular</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Traumatismo craneal</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Quemaduras</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Otra</label>
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label>Zona del cuerpo afectada <span style="color:var(--text-muted);font-size:9px;letter-spacing:1px">(PODÉS MARCAR MÁS DE UNA)</span></label>
+          <div class="check-grid">
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Tobillo</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Rodilla</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Cadera</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Brazo / codo</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Mano / muñeca</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Espalda / columna</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Cabeza / cuello</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Pie</label>
+            <label class="check-item"><input type="checkbox"/><div class="box"></div>Otra</label>
+          </div>
+        </div>
+
+        <div class="field field-full">
+          <label>Descripción de lesiones</label>
+          <textarea placeholder="Ej: Ambos tobillos esguinzados"></textarea>
+        </div>
+
+        <div class="fields-divider field-full">Internación y cirugía</div>
+
+        <div class="field">
+          <label>Días de internación</label>
+          <input type="number" placeholder="0 si no hubo" min="0"/>
+        </div>
+        <div class="field">
+          <label>¿Operaciones / cirugías?</label>
+          <div class="radio-row" style="margin-top:12px">
+            <label class="radio-item"><input type="radio" name="cirugia" value="si"/><div class="dot"></div>Sí</label>
+            <label class="radio-item"><input type="radio" name="cirugia" value="no"/><div class="dot"></div>No</label>
+          </div>
+        </div>
+        <div class="field field-full">
+          <label>Descripción de intervenciones quirúrgicas</label>
+          <textarea placeholder="Describí si aplica"></textarea>
+        </div>
+
+        <div class="fields-divider field-full">Tratamientos y atención</div>
+
+        <div class="field">
+          <label>Centro médico de atención</label>
+          <input type="text" placeholder="Nombre de la clínica / hospital"/>
+        </div>
+        <div class="field">
+          <label>¿Se realizaron radiografías / estudios?</label>
+          <div class="radio-row" style="margin-top:12px">
+            <label class="radio-item"><input type="radio" name="rx" value="si"/><div class="dot"></div>Sí</label>
+            <label class="radio-item"><input type="radio" name="rx" value="no"/><div class="dot"></div>No</label>
+          </div>
+        </div>
+        <div class="field field-full">
+          <label>Atención médica recibida</label>
+          <textarea placeholder="Ej: Consultorios Médicos Morales – Centro Médico La Bronce – Ecografía Aguilar – Clínica Santa Clara"></textarea>
+        </div>
+        <div class="field field-full">
+          <label>Diagnóstico médico</label>
+          <textarea placeholder="Tal como figura en el informe médico"></textarea>
+        </div>
+        <div class="field field-full">
+          <label>Tratamientos recibidos o en curso</label>
+          <textarea placeholder="Ej: Kinesiología, medicación, reposo, yeso, etc."></textarea>
+        </div>
+        <div class="field field-full">
+          <label>Secuelas</label>
+          <textarea placeholder="Describí las secuelas físicas o psicológicas que persisten hasta la fecha"></textarea>
+        </div>
+        <div class="field field-full">
+          <label>Estado actual del accidentado/a</label>
+          <textarea placeholder="Describí la situación a la fecha de confección de esta ficha"></textarea>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button type="button" class="btn-prev" onclick="prevSection(6)">← Anterior</button>
+        <button type="button" class="btn-next" onclick="nextSection(6)"><span>Continuar →</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── S7: TESTIGOS Y ASISTENCIA ────────────────────────── -->
+  <div class="section-card" data-section="7">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num"><span class="num-text">VII</span></div>
+      <div class="section-title-wrap">
+        <div class="section-title">Testigos y Asistencia</div>
+        <div class="section-sub">PRESENTES EN EL HECHO · SEGURO DEL DEMANDADO</div>
+      </div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <div class="fields-grid">
+        <div class="field">
+          <label>¿Hubo testigos? <span class="req">*</span></label>
+          <div class="radio-row" style="margin-top:12px">
+            <label class="radio-item"><input type="radio" name="testigos" value="si"/><div class="dot"></div>Sí</label>
+            <label class="radio-item"><input type="radio" name="testigos" value="no"/><div class="dot"></div>No</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Intervino personal policial?</label>
+          <div class="radio-row" style="margin-top:12px">
+            <label class="radio-item"><input type="radio" name="policia" value="si"/><div class="dot"></div>Sí</label>
+            <label class="radio-item"><input type="radio" name="policia" value="no"/><div class="dot"></div>No</label>
+          </div>
+        </div>
+        <div class="field field-full">
+          <label>Datos de testigos</label>
+          <textarea placeholder="Nombre completo, DNI y teléfono de cada testigo (uno por línea)"></textarea>
+        </div>
+        <div class="field field-full">
+          <label>Seguro del demandado</label>
+          <input type="text" placeholder="Nombre de la aseguradora, si se conoce"/>
+        </div>
+        <div class="field field-full">
+          <label>Observaciones adicionales</label>
+          <textarea style="min-height:100px" placeholder="Cualquier información relevante no contemplada anteriormente"></textarea>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button type="button" class="btn-prev" onclick="prevSection(7)">← Anterior</button>
+        <button type="button" class="btn-next" onclick="nextSection(7)"><span>Continuar →</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── S8: DOCUMENTACIÓN ─────────────────────────────────── -->
+  <div class="section-card" data-section="8">
+    <div class="section-header" onclick="toggleSection(this)">
+      <div class="section-num"><span class="num-text">VIII</span></div>
+      <div class="section-title-wrap">
+        <div class="section-title">Documentación Adjunta</div>
+        <div class="section-sub">LINKS DE GOOGLE DRIVE (PDF, JPG, PNG)</div>
+      </div>
+      <div class="section-chevron">▼</div>
+    </div>
+    <div class="section-body">
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:20px;line-height:1.8">
+        Subí los archivos a Google Drive y compartí el link con acceso
+        <em>"Cualquier persona con el link puede ver"</em>. Pegá los links en los campos correspondientes.
+      </p>
+      <div class="fields-grid">
+        <div class="field field-full">
+          <label>Fotos del lugar / lesiones</label>
+          <input type="text" placeholder="https://drive.google.com/file/d/..."/>
+        </div>
+        <div class="field field-full">
+          <label>Estudios médicos / radiografías</label>
+          <input type="text" placeholder="https://drive.google.com/file/d/..."/>
+        </div>
+        <div class="field field-full">
+          <label>Copia del D.N.I.</label>
+          <input type="text" placeholder="https://drive.google.com/file/d/..."/>
+        </div>
+        <div class="field field-full">
+          <label>Otros documentos</label>
+          <input type="text" placeholder="Denuncias policiales, certificados, etc."/>
+        </div>
+      </div>
+      <div class="section-nav">
+        <button type="button" class="btn-prev" onclick="prevSection(8)">← Anterior</button>
+        <button type="button" class="btn-submit" onclick="submitForm()">Enviar Registro</button>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<!-- SUCCESS -->
+<div class="success-screen" id="success-screen">
+  <div class="success-icon">✓</div>
+  <h2>Registro enviado</h2>
+  <p>La ficha fue recibida correctamente. El equipo de Cruzat Estudio Jurídico tomará contacto a la brevedad.</p>
+  <div class="success-case" id="success-case-num"></div>
+</div>
+
+</main>
+
+<!-- ══════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-logo">
+      CRUZAT
+      <span>Estudio Jurídico</span>
+    </div>
+    <div class="footer-center">
+      <div class="footer-address">
+        <strong>Av. Sarmiento 632</strong> | Piso 4 | Ciudad | Mendoza | Argentina | CP 5500<br/>
+        Instagram: @estudiojuridicocruzat &nbsp;|&nbsp; Facebook: Estudio Jurídico Cruzat
+      </div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-contact">
+        <a href="tel:+5492614230403">+54 9 261 423 0403</a><br/>
+        <a href="tel:+5492614204643">+54 9 261 420 4643</a><br/>
+        <a href="https://wa.me/5492615863587">WhatsApp: 261 586 3587</a><br/>
+        <a href="mailto:estudiojuridico@cruzatyasoc.com.ar">estudiojuridico@cruzatyasoc.com.ar</a><br/>
+        <a href="https://www.estudiojuridicocruzat.com.ar" target="_blank">www.estudiojuridicocruzat.com.ar</a>
+      </div>
+    </div>
+  </div>
+  <hr class="footer-divider"/>
+  <div class="footer-copy">
+    <span>© 2026 Cruzat Estudio Jurídico · Todos los derechos reservados</span>
+    <span>Uso interno · Información confidencial</span>
+  </div>
+</footer>
+
+<script>
+  const TOTAL = 8;
+  let currentSection = 1;
+
+  function updateProgress() {
+    const pct = Math.round(((currentSection - 1) / TOTAL) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-pct').innerHTML = '<span>' + pct + '%</span>';
+    document.getElementById('current-sec').textContent = currentSection;
+  }
+
+  function toggleSection(header) {
+    const card = header.closest('.section-card');
+    const body = card.querySelector('.section-body');
+    const isOpen = body.classList.contains('open');
+    if (isOpen) {
+      body.classList.remove('open');
+      card.classList.remove('active');
+    } else {
+      body.classList.add('open');
+      card.classList.add('active');
+    }
+  }
+
+  function openSection(num) {
+    document.querySelectorAll('.section-card').forEach(function(card) {
+      const body = card.querySelector('.section-body');
+      const n = parseInt(card.dataset.section);
+      if (n === num) {
+        body.classList.add('open');
+        card.classList.add('active');
+        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        body.classList.remove('open');
+        card.classList.remove('active');
+      }
+    });
+    currentSection = num;
+    updateProgress();
+  }
+
+  function nextSection(from) {
+    const card = document.querySelector('[data-section="' + from + '"]');
+    card.classList.add('done');
+    if (from < TOTAL) openSection(from + 1);
+  }
+
+  function prevSection(from) {
+    if (from > 1) openSection(from - 1);
+  }
+
+  function submitForm() {
+    const year = new Date().getFullYear();
+    const id = 'EXP-' + year + '-' + String(Math.floor(Math.random() * 9000) + 1000);
+    document.querySelectorAll('.section-card').forEach(function(c){ c.style.display='none'; });
+    const s = document.getElementById('success-screen');
+    s.classList.add('show');
+    document.getElementById('success-case-num').textContent = 'N° de caso: ' + id;
+    document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('progress-pct').innerHTML = '<span>100%</span>';
+    s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  updateProgress();
+</script>
 </body>
 </html>
